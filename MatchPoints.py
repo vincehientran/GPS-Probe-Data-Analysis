@@ -61,8 +61,8 @@ def run(linkData, geohash5, geohash6):
     fileWrite = open("MatchedResult.csv", "a")
     linesProbe = fileProbe.readlines()
     matchedCount = 0
-    errors = 0
 
+    prevLink = None
     for line in linesProbe:
         string = line[0:-1]
         probePoint = ProbePoint(string)
@@ -77,16 +77,35 @@ def run(linkData, geohash5, geohash6):
             # zoom out, maybe we can get a refnode that exists in that area
             candidates = geohash5[areaGeohash5]
         else:
-            probePoint.linkPVID = '62007637'
-            probePoint.direction = 'F'
-            probePoint.distFromRef = 0.0
-            probePoint.distFromLink = 0.0
+            link = linkData[prevLink]
+            shapeInfo = link[0]
+            latRef = float(shapeInfo[0][0])
+            longRef = float(shapeInfo[0][1])
+            latNonRef = float(shapeInfo[-1][0])
+            longNonRef = float(shapeInfo[-1][1])
+            heading = linkHeading(latRef, longRef, latNonRef, longNonRef)
+            probePoint.linkPVID = prevLink
+            diff = abs(float(probePoint.heading) -  heading)
+            if diff > 180:
+                diff = 360 - diff
+            if diff > 90:
+                # towards from ref Node
+                probePoint.direction = 'T'
+            else:
+                # away from ref Node
+                probePoint.direction = 'F'
+            probePoint.distFromRef = calcDistance(float(probePoint.latitude), float(probePoint.longitude), latRef, longRef)
+            d2Ref = calcDistance(float(probePoint.latitude), float(probePoint.longitude), latRef, longRef)
+            d2nRef = calcDistance(float(probePoint.latitude), float(probePoint.longitude), latNonRef, longNonRef)
+            dRef2nRef = calcDistance(latRef, longRef, latNonRef, longNonRef)
+            distance = calcDistFromLink(dRef2nRef, d2Ref, d2nRef)
+            probePoint.distFromLink = distance
+
             fileWrite.write(str(probePoint) + '\n')
 
             matchedCount += 1
             if matchedCount % 100000 == 0:
                 print('Matched ' + str(matchedCount) + ' probe points.')
-            errors += 1
 
             continue
 
@@ -125,6 +144,7 @@ def run(linkData, geohash5, geohash6):
                     minDistance = distance
                     minCandidate = candidate
 
+        prevLink = minCandidate
         link = linkData[minCandidate]
         shapeInfo = link[0]
         latRef = float(shapeInfo[0][0])
@@ -194,9 +214,4 @@ def linkHeading(startLat, startLong, endLat, endLong):
     return heading
 
 if __name__ == '__main__':
-    #calcDistance(51.9844299,9.2704199,51.9844699,9.2698900)
-    '''d = calcDistance(51.496868217364, 9.38602223061025, 51.4965800, 9.3862299)
-    print(d)
-    h = linkHeading(51.496868217364, 9.38602223061025, 51.49555901643563, 9.385918378829958)
-    print(h)'''
     loadData()
