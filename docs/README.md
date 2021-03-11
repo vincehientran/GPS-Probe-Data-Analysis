@@ -1,11 +1,9 @@
-Probe Data Analysis and Road Slope
-Vincent Tran [A20396585]
+Probe Data Analysis and Road Slope  
+Vincent Tran [A20396585]  
 
+# Language
 
-Things need to be install before execution-
-
--Python 3.7
--Pygeohash
+Python 3.7  
 
 
 # Libraries
