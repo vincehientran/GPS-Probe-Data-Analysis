@@ -3,3 +3,6 @@ Partition6467LinkData.csv
 Partition6467ProbePoints.csv
 MatchedResult.csv
 RoadSlopes.csv
+Partition6467MatchedPoints.csv
+Partition6467EvaluatedSlopes.csv
+Partition6467RoadSlopes.csv

@@ -2,7 +2,7 @@ import math
 
 def loadData():
     print('Start loading data.')
-    filePoints = open('MatchedResult.csv', 'r')
+    filePoints = open('Partition6467MatchedPoints.csv', 'r')
     fileLink = open('Partition6467LinkData.csv','r')
 
     # key: linkPVID
@@ -34,7 +34,7 @@ def loadData():
 
 def run(altitudes):
     print('Start finding slopes.')
-    filePoints = open('RoadSlopes.csv', 'a')
+    filePoints = open('Partition6467RoadSlopes.csv', 'a')
 
     for linkPVID,_ in altitudes.items():
         # no slope for just 1 point
@@ -44,14 +44,11 @@ def run(altitudes):
             distance2 = lst[-1][0]
             if distance1 == distance2:
                 # no slope for 2 identical points
-                filePoints.write(linkPVID + ',' + str(0.0) + '\n')
                 continue
             height1 = lst[0][1]
             height2 = lst[-1][1]
             slope = findSlope(height1, height2, distance1, distance2)
             filePoints.write(linkPVID + ',' + str(slope) + '\n')
-        else:
-            filePoints.write(linkPVID + ',' + str(0.0) + '\n')
 
     filePoints.close()
     print('Finished finding slopes.')
@@ -61,7 +58,6 @@ def findSlope(height1, height2, distance1, distance2):
     deltaDistance = distance2 - distance1
 
     return math.atan(deltaHeight / deltaDistance) * (180 / math.pi)
-
 
 if __name__ == '__main__':
     loadData()

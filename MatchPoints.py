@@ -26,15 +26,7 @@ def loadData():
         rNode = linkRow[-3][0]
         shapeInfo = linkRow[-3]
 
-        if linkRow[-1] != '':
-            slopeInfo = linkRow[-1].split('|')
-            temp = []
-            for slope in slopeInfo:
-                temp.append(slope.split('/'))
-            linkRow[-1] = temp
-        slopeInfo = linkRow[-1]
-
-        linkData[linkPVID] = [shapeInfo,slopeInfo]
+        linkData[linkPVID] = shapeInfo
 
         # geohash precision 6
         areaGeohash6 = pgh.encode(float(rNode[0]), float(rNode[1]), precision=6)
@@ -49,16 +41,16 @@ def loadData():
             geohash5[areaGeohash5].append(linkPVID)
         else:
             geohash5[areaGeohash5] = [linkPVID]
+
     print('Finished loading data.')
     fileLink.close()
     run(linkData, geohash5, geohash6)
-
 
 def run(linkData, geohash5, geohash6):
     print('Start matching.')
 
     fileProbe = open('Partition6467ProbePoints.csv', 'r')
-    fileWrite = open("MatchedResult.csv", "a")
+    fileWrite = open('Partition6467MatchedPoints.csv', "a")
     linesProbe = fileProbe.readlines()
     matchedCount = 0
 
@@ -77,43 +69,13 @@ def run(linkData, geohash5, geohash6):
             # zoom out, maybe we can get a refnode that exists in that area
             candidates = geohash5[areaGeohash5]
         else:
-            link = linkData[prevLink]
-            shapeInfo = link[0]
-            latRef = float(shapeInfo[0][0])
-            longRef = float(shapeInfo[0][1])
-            latNonRef = float(shapeInfo[-1][0])
-            longNonRef = float(shapeInfo[-1][1])
-            heading = linkHeading(latRef, longRef, latNonRef, longNonRef)
-            probePoint.linkPVID = prevLink
-            diff = abs(float(probePoint.heading) -  heading)
-            if diff > 180:
-                diff = 360 - diff
-            if diff > 90:
-                # towards from ref Node
-                probePoint.direction = 'T'
-            else:
-                # away from ref Node
-                probePoint.direction = 'F'
-            probePoint.distFromRef = calcDistance(float(probePoint.latitude), float(probePoint.longitude), latRef, longRef)
-            d2Ref = calcDistance(float(probePoint.latitude), float(probePoint.longitude), latRef, longRef)
-            d2nRef = calcDistance(float(probePoint.latitude), float(probePoint.longitude), latNonRef, longNonRef)
-            dRef2nRef = calcDistance(latRef, longRef, latNonRef, longNonRef)
-            distance = calcDistFromLink(dRef2nRef, d2Ref, d2nRef)
-            probePoint.distFromLink = distance
-
-            fileWrite.write(str(probePoint) + '\n')
-
-            matchedCount += 1
-            if matchedCount % 100000 == 0:
-                print('Matched ' + str(matchedCount) + ' probe points.')
-
+            # probe point cannot be matched
             continue
 
         minDistance = float('inf')
         minCandidate = None
         for candidate in candidates:
-            link = linkData[candidate]
-            shapeInfo = link[0]
+            shapeInfo = linkData[candidate]
             latRef = float(shapeInfo[0][0])
             longRef = float(shapeInfo[0][1])
             latNonRef = float(shapeInfo[-1][0])
@@ -127,26 +89,11 @@ def run(linkData, geohash5, geohash6):
                 minCandidate = candidate
 
         if not minCandidate:
-            minDistance = float('inf')
-            minCandidate = None
-            for candidate in candidates:
-                link = linkData[candidate]
-                shapeInfo = link[0]
-                latRef = float(shapeInfo[0][0])
-                longRef = float(shapeInfo[0][1])
-                latNonRef = float(shapeInfo[-1][0])
-                longNonRef = float(shapeInfo[-1][1])
-                d2Ref = calcDistance(float(probePoint.latitude), float(probePoint.longitude), latRef, longRef)
-                d2nRef = calcDistance(float(probePoint.latitude), float(probePoint.longitude), latNonRef, longNonRef)
-                dRef2nRef = calcDistance(latRef, longRef, latNonRef, longNonRef)
-                distance = calcDistFromLink(dRef2nRef, d2Ref, d2nRef)
-                if distance < minDistance:
-                    minDistance = distance
-                    minCandidate = candidate
+            # cannot find a candidate that matches
+            continue
 
         prevLink = minCandidate
-        link = linkData[minCandidate]
-        shapeInfo = link[0]
+        shapeInfo = linkData[minCandidate]
         latRef = float(shapeInfo[0][0])
         longRef = float(shapeInfo[0][1])
         latNonRef = float(shapeInfo[-1][0])
