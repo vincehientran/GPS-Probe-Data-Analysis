@@ -8,7 +8,9 @@ Python 3.7
 
 ## Libraries
 
-```$ pip install pygeohash```
+```
+$ pip install pygeohash  
+```
 
 
 ## Set up

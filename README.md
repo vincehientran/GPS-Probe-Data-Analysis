@@ -2,7 +2,7 @@
 
 Vincent Tran  
 
-Project explanation can be found in the [presentation](docs/Probe Point Analysis for Road Slope.pdf)
+Project explanation can be found in the [presentation](docs/Probe%20Point%20Analysis%20for%20Road%20Slope.pdf)
 
 ## Language
 
@@ -11,7 +11,9 @@ Python 3.7
 
 ## Libraries
 
-```pip install pygeohash```  
+```
+$ pip install pygeohash  
+```
 
 
 ## Set up
