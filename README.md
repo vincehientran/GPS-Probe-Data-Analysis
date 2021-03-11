@@ -2,7 +2,7 @@
 
 Vincent Tran  
 
-Project explanation can be found in the [presentation](docs/Probe%20Point%20Analysis%20for%20Road%20Slope.pdf)
+Project explanation can be found in the [presentation](docs/Probe%20Point%20Analysis%20for%20Road%20Slope.pdf).
 
 ## Language
 
