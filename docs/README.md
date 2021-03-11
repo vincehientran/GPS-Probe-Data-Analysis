@@ -8,7 +8,7 @@ Python 3.7
 
 ## Libraries
 
-pip install pygeohash
+```$ pip install pygeohash```
 
 
 ## Set up
@@ -18,9 +18,11 @@ Make sure the Partition6467LinkData.csv file and the Partition6467ProbePoints.cs
 
 ## Execution
 
+```
 $ python MatchPoints.py  
 $ python DeriveSlopes.py  
 $ python EvaluateSlopes.py  
+```
 
 MatchPoints.py will take around 15-25 mins to finish running. After terminating, the output file is Partition6467MatchedPoints.csv.  
 Run DeriveSlopes.py after MatchPoints.py finishes. After terminating, the output file is Partition6467DerivedSlopes.csv.  
