@@ -1,5 +1,26 @@
-# Probe Data Analysis
+Probe Data Analysis and Road Slope
+Vincent Tran [A20396585]
 
-[Link Data](https://drive.google.com/file/d/16swaw4P3NDRYbHDXhq1XepzjEZdzxIya/view?usp=sharing)
 
-[Probe Points Data](https://drive.google.com/file/d/1dnc0f53gwT15WhhRFeecQkzrBVflC92X/view?usp=sharing)
+Things need to be install before execution-
+
+-Python 3.7
+-Pygeohash
+
+
+# Libraries
+
+pip install pygeohash
+
+
+# Set up
+
+Have the Partition6467LinkData.csv file and the Partition6467ProbePoints.csv file in the src directory
+
+
+# Execution
+
+$ python MatchPoints.py  
+$ python DeriveSlopes.py  
+$ python EvaluateSlopes.py  
+

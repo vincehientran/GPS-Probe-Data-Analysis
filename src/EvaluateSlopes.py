@@ -2,7 +2,7 @@ import math
 
 def loadData():
     print('Start loading data.')
-    fileSlopes = open('Partition6467RoadSlopes.csv', 'r')
+    fileSlopes = open('Partition6467DerivedSlopes.csv', 'r')
     fileLink = open('Partition6467LinkData.csv','r')
 
     # key: linkPVID

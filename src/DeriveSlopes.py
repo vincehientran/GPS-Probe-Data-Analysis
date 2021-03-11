@@ -34,7 +34,7 @@ def loadData():
 
 def run(altitudes):
     print('Start finding slopes.')
-    filePoints = open('Partition6467RoadSlopes.csv', 'a')
+    filePoints = open('Partition6467DerivedSlopes.csv', 'a')
 
     for linkPVID,_ in altitudes.items():
         # no slope for just 1 point
