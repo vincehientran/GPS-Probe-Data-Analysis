@@ -15,7 +15,7 @@ pip install pygeohash
 ## Set up
 
 Download the [Partition6467LinkData.csv](https://drive.google.com/file/d/16swaw4P3NDRYbHDXhq1XepzjEZdzxIya/view?usp=sharing) file and the [Partition6467ProbePoints.csv](https://drive.google.com/file/d/1dnc0f53gwT15WhhRFeecQkzrBVflC92X/view?usp=sharing) file.  
-Make sure the Partition6467LinkData.csv file and the Partition6467ProbePoints.csv file in the src directory.  
+Make sure the Partition6467LinkData.csv file and the Partition6467ProbePoints.csv file are in the src directory.  
 
 
 ## Execution
